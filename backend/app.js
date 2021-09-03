@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const usersController = require("./controllers-layer/users-controller");
 const authController = require("./controllers-layer/auth-controller");
+const vacationsController = require("./controllers-layer/vacations-controllers");
 const server = express();
 
 
@@ -11,6 +12,8 @@ server.use(cors());
 server.use(express.json());
 server.use("/api/users", usersController);
 server.use("/api/auth", authController);
+server.use("/api/vacations", vacationsController);
+
 
 // Any non existing route (must be last):
 server.use("*", (request, response) => {
