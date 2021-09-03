@@ -1,0 +1,10 @@
+{
+    "isProduction": false,
+    "database": {
+        "host": "localhost",
+        "user": "root",
+        "password": "",
+        "name": "VacationDB"
+    },
+    "jwtKey": "Vacations1Management2Website3"
+}

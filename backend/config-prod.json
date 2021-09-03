@@ -1,0 +1,10 @@
+{
+    "isProduction": true,
+    "database": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "name": ""
+    },
+    "jwtKey": "Vacations1Management2Website3"
+}
