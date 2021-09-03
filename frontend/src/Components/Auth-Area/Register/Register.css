@@ -1,5 +1,5 @@
 .Register > form {
-    width: 250px;
+    width: 300px;
     overflow: auto;
     text-align: left;
     border: 1px solid black;
@@ -8,34 +8,19 @@
     border-radius: 10px;
     box-shadow: 5px 5px 10px;
 }
-.Register > h2{
-    text-align: center;
-}
-.Register button , .Register textarea{
-    width: 100%;
-    box-sizing: border-box;
-    font-size: x-large;
-    margin-top: 10px;
-}
 
-.Register input{  
-    height: 27px;
+.Register button {
     margin-top: 10px;
     width: 100%;
-    box-sizing: border-box;
-    border-radius: 5px;
-}
-.Register label{
-    margin-top: 5px;
-    box-sizing: border-box;
-    font-size: large;
 }
 .Register span{
     color:red;
-    margin: 0 20px;
+    margin-top:27px;
+    margin-left: 20px;
     position: absolute;
 }
 
-.Register button {
+.Register div{
     width: 100%;
+    display: inline-block;
 }

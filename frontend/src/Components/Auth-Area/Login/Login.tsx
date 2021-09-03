@@ -5,8 +5,10 @@ import UserModel from "../../../Models/UserModel";
 import CredentialsModel from "../../../Models/CredentialsModel";
 import globals from "../../../Services/Globals";
 import axios from "axios";
+import store from "../../../Redux/Store";
 import "./Login.css";
 import { useForm } from "react-hook-form";
+import { userLoggedInAction } from "../../../Redux/AuthState";
 
 function Login(): JSX.Element {
 
@@ -16,7 +18,7 @@ function Login(): JSX.Element {
     async function submit(credentials: CredentialsModel) {
         try {
             const response = await axios.post<UserModel>(globals.loginUrl, credentials);
-            //store.dispatch(userLoggedInAction(response.data));
+            store.dispatch(userLoggedInAction(response.data));
             notify.success("Logged-in successfully.");
             history.push("/home");
         }
@@ -28,30 +30,32 @@ function Login(): JSX.Element {
     return (
         <div className="Login">
 
-
-            <h2> Login</h2>
             <form onSubmit={handleSubmit(submit)}>
+                <h2>Sign In</h2>
 
-                <div>
-                    <label>Username:</label>
-                    <input type="text" autoFocus {...register("username", {
+                <div className="form-group">
+                    <label>Username :</label>
+                    <input type="text" className="form-control" placeholder="Enter username" autoFocus {...register("username", {
                         required: { value: true, message: "Missing username." }, minLength: { value: 4, message: "Username too short." }
                     })} />
-                    <span>{formState.errors.username?.message}</span>
                 </div>
+                <span>{formState.errors.username?.message}</span>
 
-                <div>
-                    <label>Password:</label>
-                    <input type="password"{...register("password", {
+                <div className="form-group">
+                    <label>Password :</label>
+                    <input type="password" className="form-control" placeholder="Enter password" {...register("password", {
                         required: { value: true, message: "Missing password." }, minLength: { value: 4, message: "password too short." }
                     })} />
-                    <span>{formState.errors.password?.message}</span>
                 </div>
-                
-                <button>Log in</button>
-                <NavLink to="/register">New Account </NavLink>
+                <span>{formState.errors.password?.message}</span>
 
+
+                <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                <p className="forgot-password text-right">
+                    <NavLink to="/register">New Account </NavLink>
+                </p>
             </form>
+
         </div>
     );
 }

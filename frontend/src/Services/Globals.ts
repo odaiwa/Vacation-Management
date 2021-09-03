@@ -10,7 +10,7 @@ class DevelopmentGlobals extends Globals {
     public followersUrl = "http://localhost:3001/api/follows/"; 
     public registerUrl = "http://localhost:3001/api/auth/register/";
     public loginUrl = "http://localhost:3001/api/auth/login/";
-    // public socketUrl = "http://localhost:3001/";
+    public socketUrl = "http://localhost:3001/";
 }
 
 
@@ -21,7 +21,7 @@ class ProductionGlobals extends Globals {
     public followersUrl = "http://localhost:3001/api/followers/"; 
     public registerUrl = "http://localhost:3001/api/auth/register/";
     public loginUrl = "http://localhost:3001/api/auth/login/";
-    // public socketUrl = "http://localhost:3001/";
+     public socketUrl = "http://localhost:3001/";
 }
 
 const globals = process.env.NODE_ENV === "production" ? new ProductionGlobals() : new DevelopmentGlobals();
