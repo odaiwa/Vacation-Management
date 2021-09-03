@@ -11,6 +11,7 @@ import jwtAxios from "../../../Services/jwtAxios";
 import globals from "../../../Services/Globals";
 import notify from "../../../Services/Notify";
 import { userLoggedOutAction } from "../../../Redux/AuthState";
+import VacationCard from "../VacationCard/VacationCard";
 
 interface VacationListProps {
     history: History;
@@ -98,7 +99,7 @@ class VacationList extends Component<VacationListProps, VacationListState> {
             <div className="VacationNumAndAdd">
                 <p>{this.state.vacations.length} vacations are currently available</p>
             </div>
-            {this.state.vacations.map(v => <p>{v.vacationId}</p>)}
+            {this.state.vacations.map(v => <VacationCard vacation={v} admin={this.state.admin} key={v.vacationId}/>)}
         </div>
         );
     }
