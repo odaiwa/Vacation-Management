@@ -1,6 +1,6 @@
 //Follows Controller
 const express = require("express");
-const followersLogic = require("../business-logic-layer/follows-logic");
+const followsLogic = require("../business-logic-layer/follows-logic");
 const usersLogic = require("../business-logic-layer/users-logic");
 const errorHelper = require("../helpers/errors-helper");
 const verifyLoggedIn = require("../middleware/verify-logged-in");
@@ -12,7 +12,7 @@ const router = express.Router();
 router.get("/", async (request, response) => {
     try {
         // Logic:
-        const followers = await followersLogic.getAllDetailsOfFollowerAsync();
+        const followers = await followsLogic.getAllDetailsOfFollowerAsync();
         // Success:
         response.json(followers);
     }
@@ -26,7 +26,7 @@ router.get("/", async (request, response) => {
 router.get("/user-count", async (request, response) => {
     try {
         // Logic:
-        const followers = await followersLogic.getCountOfUsersFollowingAsync();
+        const followers = await followsLogic.getCountOfUsersFollowingAsync();
         // Success:
         response.json(followers);
     }
@@ -36,17 +36,17 @@ router.get("/user-count", async (request, response) => {
 
 });
 
-// GET http://localhost:3001/api/followers/4
+// GET http://localhost:3001/api/follows/4
 router.get("/:uuid", async (request, response) => {
     try {
         const uuid = request.params.uuid;
 
         // Data:
-        const user = await usersLogic.getOneUserAsync(uuid);
+        const user = await usersLogic.getOneUserByUuidAsync(uuid);
         const userId = user.userId;
 
         // Logic:
-        const followers = await followersLogic.getOneFollowerAsync(userId);
+        const followers = await followsLogic.getOneFollowerAsync(userId);
 
         // Success:
         response.json(followers);
@@ -56,19 +56,20 @@ router.get("/:uuid", async (request, response) => {
     }
 });
 
-// GET http://localhost:3001/api/followers/4/2
+// GET http://localhost:3001/api/follows/4/2
 router.get("/:uuid/:vacationId", async (request, response) => {
     try {
         const uuid = request.params.uuid;
         const vacationId = +request.params.vacationId;
 
         // Data:
-        const user = await usersLogic.getOneUserAsync(uuid);
+        const user = await usersLogic.getOneUserByUuidAsync(uuid);
         const userId = user.userId;
 
         // Logic:
-        const followers = await followersLogic.getOneFollowerByVacationIdAsync(userId, vacationId);
-        if (!followers) return response.json(followers);
+        const followers = await followsLogic.getOneFollowerByVacationIdAsync(userId, vacationId);
+        if (!followers)
+            return response.json(followers);
 
         // Success:
         response.json(followers);
@@ -78,13 +79,13 @@ router.get("/:uuid/:vacationId", async (request, response) => {
     }
 });
 
-// GET http://localhost:3001/api/followers/by-userid/7
-router.get("/by-userid/:id", async (request, response) => {
+// GET http://localhost:3001/api/follows/by-userid/7
+router.get("/by-userId/:id", async (request, response) => {
     try {
         const id = +request.params.id;
 
         // Logic:
-        const following = await followersLogic.getVacationsFollowersByUserIdAsync(id);
+        const following = await followsLogic.getVacationsFollowersByUserIdAsync(id);
         if (!following)
             return response.status(404).send(`id ${id} not found..`);
 
@@ -96,13 +97,16 @@ router.get("/by-userid/:id", async (request, response) => {
     }
 });
 
-// GET http://localhost:3001/api/followers/by-vacation/7
+// GET http://localhost:3001/api/follows/by-vacation/7
 router.get("/by-vacation/:id", async (request, response) => {
     try {
         const id = +request.params.id; // Data
+
         // Logic:
-        const following = await followersLogic.getUsersByVacationIdAsync(id);
-        if (!following) return response.status(404).send(`id ${id} not found..`);
+        const following = await followsLogic.getUsersByVacationIdAsync(id);
+        if (!following)
+            return response.status(404).send(`id ${id} not found..`);
+
         // Success:
         response.json(following);
     }
@@ -111,17 +115,23 @@ router.get("/by-vacation/:id", async (request, response) => {
     }
 });
 
-// POST http://localhost:3001/api/followers/userId/:vacationId
+// POST http://localhost:3001/api/follows/:uuid/:vacationId
 router.post("/:uuid/:vacationId", async (request, response) => {
     try {
         // Data:
         const uuid = request.params.uuid;
         const vacationId = +request.params.vacationId;
-        // Get data about specific user:
-        const user = await usersLogic.getOneUserAsync(uuid);
+
+        // Get data about user:
+        const user = await usersLogic.getOneUserByUuidAsync(uuid);
         const userId = user.userId;
         // Logic:
-        const addedFollower = await followersLogic.addFollowingToVacationAsync(userId, vacationId);
+        const checkFollower = await followsLogic.isUserFollowsVacationAsync(uuid, vacationId);
+        if(checkFollower){
+            response.status(406).send("you already follows this vacation");
+        }
+        const addedFollower = await followsLogic.addFollowingToVacationAsync(userId, vacationId);
+
         // Success:
         response.status(201).json(addedFollower);
     }
@@ -130,17 +140,20 @@ router.post("/:uuid/:vacationId", async (request, response) => {
     }
 });
 
-// DELETE http://localhost:3001/api/followers/4
+// DELETE http://localhost:3001/api/follows/4
 router.delete("/:uuid/:vacationId", async (request, response) => {
     try {
         // Data:
         const uuid = request.params.uuid;
         const vacationId = +request.params.vacationId;
+
         // Get data about specific user:
-        const user = await usersLogic.getOneUserAsync(uuid);
+        const user = await usersLogic.getOneUserByUuidAsync(uuid);
         const userId = user.userId;
+
         // Logic:
-        await followersLogic.deleteFollowerAsync(userId, vacationId);
+        await followsLogic.deleteFollowerAsync(userId, vacationId);
+
         // Success:
         response.sendStatus(204);
     }
@@ -149,4 +162,4 @@ router.delete("/:uuid/:vacationId", async (request, response) => {
     }
 });
 
-module.exports = router;// module.exports = {
+module.exports = router;

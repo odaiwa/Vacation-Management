@@ -8,6 +8,13 @@ async function getAllFollowsAsync() {
     return followers;
 }
 
+async function isUserFollowsVacationAsync(uuid,vacationId){
+    const sql = "SELECT userId, vacationId FROM follows WHERE userId = ? and vacationId = ?";
+    const values = [uuid,vacationId];
+    const result = await dal.executeAsync(sql,values);
+    return result.length == 0;
+}
+
 
 //Get number of followers for each vacation (destination, vacationId, number of followers)
 async function getCountOfUsersFollowingAsync() {
@@ -87,5 +94,6 @@ module.exports = {
     deleteFollowerAsync,
     addFollowingToVacationAsync,
     getVacationsFollowersByUserIdAsync,
-    getUsersByVacationIdAsync
+    getUsersByVacationIdAsync,
+    isUserFollowsVacationAsync
 };
