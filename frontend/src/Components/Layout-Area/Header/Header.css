@@ -1,0 +1,16 @@
+.Header {
+	height: 100%;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    font-family: myFont;
+    height: 80px;
+    font-size: xx-large;
+}
+
+
+@font-face {
+    font-family: myFont;
+    src: url("../../../assets/fonts/ThreeDimensionsHollow.ttf");
+  }

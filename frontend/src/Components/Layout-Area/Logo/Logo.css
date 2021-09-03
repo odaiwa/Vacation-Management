@@ -1,0 +1,13 @@
+.Logo > img {
+    width: 67px;
+    height: 67px;
+    position: fixed;
+    left: 10px;
+    top: 1px;
+    margin-top: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px;
+
+}
+
