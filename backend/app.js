@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const usersController = require("./controllers-layer/users-controller");
 const authController = require("./controllers-layer/auth-controller");
+const followsController = require("./controllers-layer/follows-controller");
 const vacationsController = require("./controllers-layer/vacations-controllers");
 const server = express();
 
@@ -13,6 +14,7 @@ server.use(express.json());
 server.use("/api/users", usersController);
 server.use("/api/auth", authController);
 server.use("/api/vacations", vacationsController);
+server.use("/api/follows", followsController);
 
 
 // Any non existing route (must be last):

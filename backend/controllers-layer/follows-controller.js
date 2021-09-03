@@ -1,91 +1,152 @@
-const dal = require("../data-access-layer/dal");
+//Follows Controller
+const express = require("express");
+const followersLogic = require("../business-logic-layer/follows-logic");
+const usersLogic = require("../business-logic-layer/users-logic");
+const errorHelper = require("../helpers/errors-helper");
+const verifyLoggedIn = require("../middleware/verify-logged-in");
+
+const router = express.Router();
+// router.use(verifyLoggedIn);
+
+// GET http://localhost:3001/api/followers
+router.get("/", async (request, response) => {
+    try {
+        // Logic:
+        const followers = await followersLogic.getAllDetailsOfFollowerAsync();
+        // Success:
+        response.json(followers);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
+});
 
 
-//Get All Follows (UsedId and Vacation Id)
-async function getAllFollowsAsync() {
-    const sql = `SELECT * FROM follows`;
-    const followers = await dal.executeAsync(sql);
-    return followers;
-}
+// GET http://localhost:3001/api/followers/user-count
+router.get("/user-count", async (request, response) => {
+    try {
+        // Logic:
+        const followers = await followersLogic.getCountOfUsersFollowingAsync();
+        // Success:
+        response.json(followers);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
 
+});
 
-//Get number of followers for each vacation (destination, vacationId, number of followers)
-async function getCountOfUsersFollowingAsync() {
-    const sql = "SELECT vacations.destination, vacations.vacationId, COUNT(userId) AS numberOfUsers FROM follows JOIN vacations on vacations.vacationId = follows.vacationId  GROUP BY vacations.vacationId";
-    const countFollowers = await dal.executeAsync(sql);
-    return countFollowers;
-}
+// GET http://localhost:3001/api/followers/4
+router.get("/:uuid", async (request, response) => {
+    try {
+        const uuid = request.params.uuid;
 
-//Get follower by userId
-//params : userId
-async function getOneFollowerAsync(userId) {
-    const sql = "SELECT * FROM follows WHERE userId = ? ";
-    const followers = await dal.executeAsync(sql, [userId]);
-    return followers;
-}
+        // Data:
+        const user = await usersLogic.getOneUserAsync(uuid);
+        const userId = user.userId;
 
-//get followers by vacation and user IDs
-//params : userId, vacationId
-async function getOneFollowerByVacationIdAsync(userId, vacationId) {
-    const sql = "SELECT * FROM follows WHERE userId = ? AND vacationId = ?";
-    const followers = await dal.executeAsync(sql, [userId, vacationId]);
-    if (followers.length === 0) return null;
-    return followers;
-}
+        // Logic:
+        const followers = await followersLogic.getOneFollowerAsync(userId);
 
+        // Success:
+        response.json(followers);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
+});
 
-//Get details of followers
-//params : userId, vacationId
-async function getAllDetailsOfFollowerAsync() {
-    const sql = `SELECT follows.*, vacations.*, users.* FROM follows JOIN vacations
-    ON vacations.vacationId = follows.vacationId JOIN users
-    ON users.userId = follows.userId`;
-    const followers = await dal.executeAsync(sql);
-    return followers;
-}
+// GET http://localhost:3001/api/followers/4/2
+router.get("/:uuid/:vacationId", async (request, response) => {
+    try {
+        const uuid = request.params.uuid;
+        const vacationId = +request.params.vacationId;
 
-//delete follower from vacation
-//params : userId, vacationId
-async function deleteFollowerAsync(userId, vacationId) {
-    const sql = `DELETE FROM follows WHERE userId = ? AND vacationId =?`;
-    await dal.executeAsync(sql, [userId, vacationId]);
-}
+        // Data:
+        const user = await usersLogic.getOneUserAsync(uuid);
+        const userId = user.userId;
 
-//add a follower to vacation 
-//params : userId, vacationId
-async function addFollowingToVacationAsync(userId, vacationId) {
-    const sql = `INSERT INTO follows (userId, vacationId) VALUES( ?, ?)`;
-    await dal.executeAsync(sql, [userId, vacationId]);
-}
+        // Logic:
+        const followers = await followersLogic.getOneFollowerByVacationIdAsync(userId, vacationId);
+        if (!followers) return response.json(followers);
 
-//get vacation followers by userId
-async function getVacationsFollowersByUserIdAsync(id) {
-    const sql = `SELECT follows.*, vacations.*, users.* FROM follows JOIN vacations
-                ON vacations.vacationId = follows.vacationId JOIN users
-                ON users.userId = follows.userId WHERE follows.userId = ?`;
-    const following = await dal.executeAsync(sql, [id]);
-    if (following.length === 0) return null;
-    return following;
-}
+        // Success:
+        response.json(followers);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
+});
 
-//get users by vaacationId that they follow
-async function getUsersByVacationIdAsync(id) {
-    const sql =`SELECT vacations.*, users.* FROM follows JOIN vacations
-                ON vacations.vacationId = follows.vacationId JOIN users
-                ON users.userId = follows.userId WHERE follows.vacationId = ${id}`;
-    const following = await dal.executeAsync(sql);
-    if (following.length === 0) return null; 
-    return following;
-}
+// GET http://localhost:3001/api/followers/by-userid/7
+router.get("/by-userid/:id", async (request, response) => {
+    try {
+        const id = +request.params.id;
 
-module.exports = {
-    getAllFollowsAsync,
-    getCountOfUsersFollowingAsync,
-    getOneFollowerAsync,
-    getOneFollowerByVacationIdAsync,
-    getAllDetailsOfFollowerAsync,
-    deleteFollowerAsync,
-    addFollowingToVacationAsync,
-    getVacationsFollowersByUserIdAsync,
-    getUsersByVacationIdAsync
-};
+        // Logic:
+        const following = await followersLogic.getVacationsFollowersByUserIdAsync(id);
+        if (!following)
+            return response.status(404).send(`id ${id} not found..`);
+
+        // Success:
+        response.json(following);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
+});
+
+// GET http://localhost:3001/api/followers/by-vacation/7
+router.get("/by-vacation/:id", async (request, response) => {
+    try {
+        const id = +request.params.id; // Data
+        // Logic:
+        const following = await followersLogic.getUsersByVacationIdAsync(id);
+        if (!following) return response.status(404).send(`id ${id} not found..`);
+        // Success:
+        response.json(following);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
+});
+
+// POST http://localhost:3001/api/followers/userId/:vacationId
+router.post("/:uuid/:vacationId", async (request, response) => {
+    try {
+        // Data:
+        const uuid = request.params.uuid;
+        const vacationId = +request.params.vacationId;
+        // Get data about specific user:
+        const user = await usersLogic.getOneUserAsync(uuid);
+        const userId = user.userId;
+        // Logic:
+        const addedFollower = await followersLogic.addFollowingToVacationAsync(userId, vacationId);
+        // Success:
+        response.status(201).json(addedFollower);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
+});
+
+// DELETE http://localhost:3001/api/followers/4
+router.delete("/:uuid/:vacationId", async (request, response) => {
+    try {
+        // Data:
+        const uuid = request.params.uuid;
+        const vacationId = +request.params.vacationId;
+        // Get data about specific user:
+        const user = await usersLogic.getOneUserAsync(uuid);
+        const userId = user.userId;
+        // Logic:
+        await followersLogic.deleteFollowerAsync(userId, vacationId);
+        // Success:
+        response.sendStatus(204);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
+});
+
+module.exports = router;// module.exports = {
