@@ -28,7 +28,7 @@ router.get("/:uuid", async (request, response)=> {
     }
 });
 
-// PUT http://localhost:3001/api/users/:uuid'
+// PUT http://localhost:3001/api/users/:uuid
 // update user info
 router.put("/:uuid", async (request, response)=> {
     try {

@@ -36,7 +36,7 @@ async function deleteUserAsync(uuid) {
 
 module.exports = {
     getAllUsersAsync,
-    getOneUserAsync,
+    getOneUserByUuidAsync,
     deleteUserAsync,
     updateFullUserAsync
 };
