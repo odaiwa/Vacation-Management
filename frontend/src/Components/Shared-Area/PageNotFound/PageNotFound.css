@@ -1,0 +1,7 @@
+.Page404 > h2 {
+    margin: 200px auto;
+}
+.Page404 > iframe {
+    position: relative;
+    bottom: 180px;
+}

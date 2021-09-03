@@ -1,0 +1,41 @@
+.Login > form {
+    width: 250px;
+    overflow: auto;
+    text-align: left;
+    border: 1px solid black;
+    padding:10px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
+}
+.Login > h2{
+    text-align: center;
+}
+.Login button , .Login textarea{
+    width: 100%;
+    box-sizing: border-box;
+    font-size: x-large;
+    margin-top: 10px;
+}
+
+.Login input{  
+    height: 27px;
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.Login label{
+    margin-top: 5px;
+    box-sizing: border-box;
+    font-size: large;
+}
+.Login span{
+    color:red;
+    margin: 0 20px;
+    position: absolute;
+}
+
+.Login button {
+    width: 100%;
+}

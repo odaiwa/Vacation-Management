@@ -1,6 +1,8 @@
 import { BrowserRouter } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
+import Menu from "../Menu/Menu";
+import Routing from "../Routing/Routing";
 import "./Layout.css";
 
 function Layout(): JSX.Element {
@@ -12,11 +14,11 @@ function Layout(): JSX.Element {
                 </header>
 
                 <aside>
-                    <h2>Aside</h2>
+                   <Menu/>
                 </aside>
 
                 <main>
-                    <h3>Main</h3>
+                    <Routing/>
                 </main>
 
                 <footer>

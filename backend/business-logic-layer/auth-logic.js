@@ -17,8 +17,8 @@ async function usernameAlreadyTakenAsync(username) {
 async function registerAsync(user) {
     user.password = cryptoHelper.hash(user.password);
     user.uuid = uuid.v4();
-    const sql = "INSERT INTO users VALUES (DEFAULT ,? , ?, ?, ?, ?, ?)";
-    const values = [user.uuid, user.firstName, user.lastName, user.username, user.password, user.isAdmin];
+    const sql = "INSERT INTO users VALUES (DEFAULT ,? , ?, ?, ?, ?,0)";
+    const values = [user.uuid, user.firstName, user.lastName, user.username, user.password];
     const info = await dal.executeAsync(sql, values);
     delete user.password;
     //user.isAdmin = 0;
