@@ -1,8 +1,10 @@
 import { Redirect, Route, Switch } from "react-router-dom";
-import Login from "../../Auth-Area/Login/Login";
-import Register from "../../Auth-Area/Register/Register";
-import Home from "../../Home-Area/Home/Home";
-import PageNotFound from "../../Shared-Area/PageNotFound/PageNotFound";
+import Login from "../../AuthArea/Login/Login";
+import Logout from "../../AuthArea/Logout/Logout";
+import Register from "../../AuthArea/Register/Register";
+import Home from "../../HomeArea/Home/Home";
+import PageNotFound from "../../SharedArea/PageNotFound/PageNotFound";
+import VacationList from "../../VacationArea/VacationList/VacationList";
 import "./Routing.css";
 
 function Routing(): JSX.Element {
@@ -12,6 +14,8 @@ function Routing(): JSX.Element {
             <Route path="/home" component={Home} exact />
             <Route path="/register" component={Register} exact />
             <Route path="/login" component={Login} exact />
+            <Route path="/logout" component={Logout} exact />
+            <Route path="/vacations" component={VacationList} exact />
             <Redirect from="/" to="/home" exact />
                 {/* <Route component={PageNotFound} /> */}
             </Switch>

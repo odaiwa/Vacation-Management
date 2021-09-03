@@ -1,5 +1,5 @@
-// import AuthMenu from "../../Auth-Area/AuthMenu/AuthMenu";
-import AuthMenu from "../../Auth-Area/AuthMenu/AuthMenu";
+// import AuthMenu from "../../AuthArea/AuthMenu/AuthMenu";
+import AuthMenu from "../../AuthArea/AuthMenu/AuthMenu";
 import Logo from "../Logo/Logo";
 import "./Header.css";
 
