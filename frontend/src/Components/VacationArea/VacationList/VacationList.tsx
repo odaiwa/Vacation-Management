@@ -46,26 +46,25 @@ class VacationList extends Component<VacationListProps, VacationListState> {
                 this.setState({ admin: this.state.user.isAdmin });
             }
 
+            store.getState().authState.vacationsSocket.socket.on("added-vacation-from-server", newVacation => {
+                const allVacations = [...this.state.vacations];
+                allVacations.push(newVacation);
+                this.setState({ vacations: allVacations });
+            });
 
-            // store.getState().authState.vacationsSocket.socket.on("added-vacation-from-server", newVacation => {
-            //     const allVacations = [...this.state.vacations];
-            //     allVacations.push(newVacation);
-            //     this.setState({ vacations: allVacations });
-            // });
+            store.getState().authState.vacationsSocket.socket.on("updated-vacation-from-server", updatedVacation => {
+                const allVacations = [...this.state.vacations];
+                const indexToUpdate = allVacations.findIndex(v => v.vacationId === updatedVacation.vacationId);
+                allVacations[indexToUpdate] = updatedVacation;
+                this.setState({ vacations: allVacations });
+            });
 
-            // store.getState().authState.vacationsSocket.socket.on("updated-vacation-from-server", updatedVacation => {
-            //     const allVacations = [...this.state.vacations];
-            //     const indexToUpdate = allVacations.findIndex(v => v.vacationId === updatedVacation.vacationId);
-            //     allVacations[indexToUpdate] = updatedVacation;
-            //     this.setState({ vacations: allVacations });
-            // });
-
-            // store.getState().authState.vacationsSocket.socket.on("deleted-vacation-from-server", deletedVacation => {
-            //     const allVacations = [...this.state.vacations];
-            //     const indexToDelete = allVacations.findIndex(v => v.vacationId === deletedVacation);
-            //     allVacations.splice(indexToDelete, 1);
-            //     this.setState({ vacations: allVacations });
-            // });
+            store.getState().authState.vacationsSocket.socket.on("deleted-vacation-from-server", deletedVacation => {
+                const allVacations = [...this.state.vacations];
+                const indexToDelete = allVacations.findIndex(v => v.vacationId === deletedVacation);
+                allVacations.splice(indexToDelete, 1);
+                this.setState({ vacations: allVacations });
+            });
 
 
 

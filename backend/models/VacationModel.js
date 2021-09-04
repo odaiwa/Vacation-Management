@@ -34,6 +34,7 @@ class VacationModel {
 
 
     validatePost() {
+        console.log("Validate "+this.img);
         const result = VacationModel.#postValidationSchema.validate(this, { abortEarly: false }); //return all validation errors.
         return result.error ? result.error.message : null;
     }

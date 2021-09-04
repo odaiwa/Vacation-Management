@@ -1,13 +1,13 @@
 class VacationsModel {
-	public vacationId: number;
-	public destination: string;
-	public startDate: string;
-	public endDate: string;
-	public price: number;
-	public description: string;
-    public img: FileList ;
+    public vacationId: number;
+    public destination: string;
+    public startDate: string;
+    public endDate: string;
+    public price: number;
+    public description: string;
+    public img: FileList;
 
-    public static convertToFormData(vacation: VacationsModel): FormData { 
+    public static convertToFormData(vacation: VacationsModel): FormData {
 
         const myFormData = new FormData();
         myFormData.append("destination", vacation.destination);

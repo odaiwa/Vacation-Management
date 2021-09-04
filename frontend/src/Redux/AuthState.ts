@@ -1,12 +1,12 @@
 import UserModel from "../Models/UserModel";
-// import VacationsSocket from "../Services/VacationsSocket";
+import VacationsSocket from "../Services/VacationsSocket";
 
 // Auth State: 
 export class AuthState {
     public user: UserModel = null;
 
     // VacationsSocketService:
-    // public vacationsSocket: VacationsSocket = new VacationsSocket();
+    public vacationsSocket: VacationsSocket = new VacationsSocket();
     
     // public unavailableToken: any = new Object();
 
@@ -57,12 +57,12 @@ export function authReducer(currentState: AuthState = new AuthState(), action: A
         case AuthActionType.UserRegistered:
         case AuthActionType.UserLoggedIn:
             newState.user = action.payload;
-            // newState.vacationsSocket.connect();
+            newState.vacationsSocket.connect();
             sessionStorage.setItem("user", JSON.stringify(newState.user));
             break;
         case AuthActionType.UserLoggedOut:
             newState.user = null;
-            // newState.vacationsSocket.disconnect();
+            newState.vacationsSocket.disconnect();
             sessionStorage.removeItem("user");
             break;
     }

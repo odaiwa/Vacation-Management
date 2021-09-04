@@ -1,11 +1,28 @@
+
 .AddVacation > form {
-    width: 100%;
+    width: 300px;
+    overflow: auto;
     text-align: left;
+    border: 1px solid black;
+    padding:10px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
 }
 
-.AddVacation input, .AddVacation button ,.AddVacation  label ,.AddVacation textarea{
-    width: 100%;
-    box-sizing: border-box;
-    font-size: x-large;
+.AddVacation button {
     margin-top: 10px;
+    width: 100%;
+}
+
+.AddVacation span{
+    color:red;
+    margin-top:27px;
+    margin-left: 20px;
+    position: absolute;
+}
+
+.AddVacation div{
+    width: 100%;
+    display: inline-block;
 }
