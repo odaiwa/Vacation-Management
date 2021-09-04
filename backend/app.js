@@ -1,4 +1,4 @@
-global.config = require(process.env.NODE_ENV === "production" ? "./config-prod.json" : "./config-dev.json"); // get in which env project running
+global.config = require(process.env.NODE_ENV === "production" ? "./config-prod.json" : "./config-dev.json");
 const express = require("express");
 const cors = require("cors");
 const usersController = require("./controllers-layer/users-controller");
@@ -9,18 +9,18 @@ const server = express();
 
 
 server.use(cors());
-// Handle json body object so request.body will contain the json in the body:
 server.use(express.json());
+
 server.use("/api/users", usersController);
 server.use("/api/auth", authController);
 server.use("/api/vacations", vacationsController);
 server.use("/api/follows", followsController);
 
 
-// Any non existing route (must be last):
+
 server.use("*", (request, response) => {
     response.status(404).send("Route not found.");
 });
 
-const port = 3001;
-const listener = server.listen(port, () => console.log(`Listening on port ${port}`));
+const port = process.env.PORT || 3001; //process.env.PORT === Some production port || 3001 === localhost port
+const listener = server.listen(port, () => console.log(`Listening to ${port}...`));

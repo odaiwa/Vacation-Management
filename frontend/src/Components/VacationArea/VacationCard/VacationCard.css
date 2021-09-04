@@ -1,7 +1,16 @@
 .VacationCard {
 	border: 1px solid black;
-    border-radius: 3px;
+    border-radius: 5px;
     width: 300px;
-    display: inline-block;
+    height: 300px;
     margin: 5px;
+    display: inline-grid ;
+    align-items: baseline;
+    padding:5px;
+}
+
+.VacationCard .w3-container{
+    width: 100%;
+    /* position: fixed; */
+    /* bottom: 0%; */
 }

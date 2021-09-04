@@ -1,3 +1,11 @@
-.AddVacation {
-	
+.AddVacation > form {
+    width: 100%;
+    text-align: left;
+}
+
+.AddVacation input, .AddVacation button ,.AddVacation  label ,.AddVacation textarea{
+    width: 100%;
+    box-sizing: border-box;
+    font-size: x-large;
+    margin-top: 10px;
 }

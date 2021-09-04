@@ -18,7 +18,7 @@ export class AuthState {
     }
 }
 
-// Auth Action Types: 
+// Auth Type ENUM: 
 export enum AuthActionType {
     UsersDownloaded = "UsersDownloaded",
     UserRegistered = "UserRegistered",
@@ -31,9 +31,6 @@ export interface AuthAction {
     type: AuthActionType;
     payload?: any;
 }
-
-
-
 
 // Auth Action Creators: 
 export function usersDownloadedAction(user: UserModel): AuthAction {
@@ -53,10 +50,8 @@ export function userLoggedOutAction(): AuthAction {
 export function authReducer(currentState: AuthState = new AuthState(), action: AuthAction): AuthState {
 
     const newState = { ...currentState };
-
-
     switch (action.type) {
-        case AuthActionType.UsersDownloaded: // payload = all vacations
+        case AuthActionType.UsersDownloaded:
         newState.user = action.payload;
         break;
         case AuthActionType.UserRegistered:

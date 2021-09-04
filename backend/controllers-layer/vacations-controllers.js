@@ -11,8 +11,8 @@ const router = express.Router();
 
 
 // GET http://localhost:3001/api/vacations
-//router.get("/", verifyLoggedIn , async (request, response)=> {
-router.get("/", async (request, response) => {
+//router.get("/", async (request, response) => {
+router.get("/", verifyLoggedIn , async (request, response)=> {
     try {
         const vacations = await vacationLogic.getAllVacationsAsync();
         response.json(vacations);
@@ -23,8 +23,8 @@ router.get("/", async (request, response) => {
 });
 
 // GET http://localhost:3001/api/vacations/:id
-//router.get("/:id", verifyLoggedIn , async (request, response)=> {
-router.get("/:id", async (request, response) => {
+//router.get("/:id", async (request, response) => {
+router.get("/:id", verifyLoggedIn , async (request, response)=> {
     try {
         // Data:
         const id = +request.params.id;
@@ -40,8 +40,8 @@ router.get("/:id", async (request, response) => {
 });
 
 // POST http://localhost:3001/api/vacations
-//router.post("/", [verifyLoggedIn , verifyAdmin] ,async (request, response)=> {
-router.post("/" ,async (request, response)=> {
+//router.post("/" ,async (request, response)=> {
+router.post("/", [verifyLoggedIn , verifyAdmin] ,async (request, response)=> {
     try {
         // if(!request.files.img) return response.status(400).send("No Image sent!"); 
         // Data: 
@@ -65,8 +65,8 @@ router.post("/" ,async (request, response)=> {
 });
 
 // PUT http://localhost:3001/api/vacations/:id
-//router.put("/:id", [verifyLoggedIn , verifyAdmin] , async (request, response)=> {
-router.put("/:id" , async (request, response)=> {
+//router.put("/:id" , async (request, response)=> {
+router.put("/:id", [verifyLoggedIn , verifyAdmin] , async (request, response)=> {
     try {
         // Data:
         const id = +request.params.id;
@@ -87,4 +87,19 @@ router.put("/:id" , async (request, response)=> {
     }
 });
 
+// DELETE http://localhost:3001/api/vacations/7
+router.delete("/:id",[verifyLoggedIn , verifyAdmin], async (request, response)=> {
+    try {
+        // Data:
+        const id = +request.params.id;
+        const currentImageName = await vacationLogic.getOneVacationAsync(id);
+        // Logic:
+        await vacationLogic.deleteVacationAsync(id, currentImageName[0].img);
+        // Success:
+        response.sendStatus(204);
+    }
+    catch (err) {
+        response.status(500).send(errorHelper.getError(err));
+    }
+});
 module.exports = router;

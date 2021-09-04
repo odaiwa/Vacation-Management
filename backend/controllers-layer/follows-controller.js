@@ -8,7 +8,7 @@ const verifyLoggedIn = require("../middleware/verify-logged-in");
 const router = express.Router();
 // router.use(verifyLoggedIn);
 
-// GET http://localhost:3001/api/followers
+// GET http://localhost:3001/api/follows
 router.get("/", async (request, response) => {
     try {
         // Logic:
@@ -22,7 +22,7 @@ router.get("/", async (request, response) => {
 });
 
 
-// GET http://localhost:3001/api/followers/user-count
+// GET http://localhost:3001/api/follows/user-count
 router.get("/user-count", async (request, response) => {
     try {
         // Logic:
@@ -56,7 +56,7 @@ router.get("/:uuid", async (request, response) => {
     }
 });
 
-// GET http://localhost:3001/api/follows/4/2
+// GET http://localhost:3001/api/follows/userUUID/vacationId
 router.get("/:uuid/:vacationId", async (request, response) => {
     try {
         const uuid = request.params.uuid;
@@ -100,12 +100,13 @@ router.get("/by-userId/:id", async (request, response) => {
 // GET http://localhost:3001/api/follows/by-vacation/7
 router.get("/by-vacation/:id", async (request, response) => {
     try {
-        const id = +request.params.id; // Data
+        // Data
+        const id = +request.params.id;
 
         // Logic:
         const following = await followsLogic.getUsersByVacationIdAsync(id);
         if (!following)
-            return response.status(404).send(`id ${id} not found..`);
+            return response.status(404).send(`id ${id} not found.`);
 
         // Success:
         response.json(following);
@@ -126,10 +127,10 @@ router.post("/:uuid/:vacationId", async (request, response) => {
         const user = await usersLogic.getOneUserByUuidAsync(uuid);
         const userId = user.userId;
         // Logic:
-        const checkFollower = await followsLogic.isUserFollowsVacationAsync(uuid, vacationId);
-        if(checkFollower){
-            response.status(406).send("you already follows this vacation");
-        }
+        // const checkFollower = await followsLogic.isUserFollowsVacationAsync(uuid, vacationId);
+        // if(checkFollower){
+        //     response.status(406).send("you already follows this vacation");
+        // }
         const addedFollower = await followsLogic.addFollowingToVacationAsync(userId, vacationId);
 
         // Success:

@@ -1,13 +1,11 @@
-.Logo > img {
-    width: 67px;
-    height: 67px;
+.Logo {
+	height: 10%;
+    padding: 3px;
+    border: 1px solid black;
     position: fixed;
     left: 10px;
-    top: 1px;
-    margin-top: 5px;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 2px;
-
 }
 
+.Logo > img {
+    height: 100%;
+}

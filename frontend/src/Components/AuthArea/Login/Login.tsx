@@ -19,7 +19,7 @@ function Login(): JSX.Element {
         try {
             const response = await axios.post<UserModel>(globals.loginUrl, credentials);
             store.dispatch(userLoggedInAction(response.data));
-            notify.success("Logged-in successfully.");
+            notify.success(`${credentials.username} LoggedIn successfully`)
             history.push("/home");
         }
         catch (err) {
@@ -44,7 +44,7 @@ function Login(): JSX.Element {
                 <div className="form-group">
                     <label>Password :</label>
                     <input type="password" className="form-control" placeholder="Enter password" {...register("password", {
-                        required: { value: true, message: "Missing password." }, minLength: { value: 4, message: "password too short." }
+                        required: { value: true, message: "Missing password." }, minLength: { value: 6, message: "password too short." }
                     })} />
                 </div>
                 <span>{formState.errors.password?.message}</span>

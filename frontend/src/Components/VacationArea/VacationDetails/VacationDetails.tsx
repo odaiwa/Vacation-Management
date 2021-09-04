@@ -52,6 +52,20 @@ class VacationDetails extends Component<VacationDetailsProps, VacationDetailsSta
             return;
         };
     }
+
+    public deleteVacation = async () =>  {
+        try {
+            const ok = window.confirm("Are you sure?");
+            if (!ok) return;
+            await jwtAxios.delete(globals.vacationsUrl + this.state.id);
+            notify.success(`Vacation has beeb deleted!`);
+            this.props.history.push("/vacations");
+        }
+        catch (err) {
+            notify.error("Error" + err);
+        }
+    } 
+
     public render(): JSX.Element {
         return (
             <div className="VacationDetails MainComponents">
@@ -62,9 +76,9 @@ class VacationDetails extends Component<VacationDetailsProps, VacationDetailsSta
                         <NavLink to="/vacations"></NavLink>
                         {this.state.admin === 1 && <NavLink to={`/vacations/edit/${v.vacationId}`}> </NavLink>}
                         {this.state.admin === 1 && <div>
-                            {/* <Fab  size="small"  color="primary" aria-label="delete" className="deleteButton" onClick={()=>this.deleteVacation()}>
-                                <Delete/>  
-                            </Fab>    */}
+                            <p onClick={()=>this.deleteVacation()}>
+                                Delete 
+                            </p>   
                         </div>}
                     </div>
                     <h2>{v.destination}</h2>
@@ -80,6 +94,7 @@ class VacationDetails extends Component<VacationDetailsProps, VacationDetailsSta
                         <p>{v.description}</p>
                         <img alt="#" src={globals.vacationsUrl + "images/" + v.img} />
                     </div>
+                    <NavLink to="/vacations">Back to List</NavLink>
                 </div>
             )}                  
     </div>

@@ -1,9 +1,7 @@
-
 import { Notyf } from "notyf";
 
-class Notify {
-
-    private notification = new Notyf({ duration: 1500, ripple: false, position: { x: "left", y: "center" } });
+class Nofity {
+    private notification = new Notyf({ duration: 2000, position: { x: "left", y: "top" } });
 
     public success(message: string): void {
         this.notification.success(message);
@@ -13,34 +11,25 @@ class Notify {
         const message = this.getErrorMessage(err);
         this.notification.error(message);
     }
-    
-
 
     private getErrorMessage(err: any) {
+        console.log( err);
         if (typeof err === "string") {
             return err;
         }
-
         if (typeof err.response?.data === "string") {
             return err.response.data;
         }
-
         if (Array.isArray(err.response?.data)) {
-            let allErrors = "";
-            for (const item of err.response.data) {
-                allErrors += item + "\n";
-            }
-            return allErrors;
+            return err.response.data[0];
         }
-
         if (typeof err.message === "string") {
             return err.message;
         }
-
-        return "Some error occurred, please try again.";
+        return "some error occurred, please try again";
     }
 }
 
-const notify = new Notify();
+const notify = new Nofity();
 
 export default notify;

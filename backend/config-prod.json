@@ -1,10 +1,10 @@
 {
     "isProduction": true,
     "database": {
-        "host": "",
-        "user": "",
-        "password": "",
-        "name": ""
+        "host": "eu-cdbr-west-01.cleardb.com",
+        "user": "b8e63ca22e594c",
+        "password": "04ee267b",
+        "name": "heroku_1adc3897b1c05d3"
     },
     "jwtKey": "Vacations1Management2Website3"
 }

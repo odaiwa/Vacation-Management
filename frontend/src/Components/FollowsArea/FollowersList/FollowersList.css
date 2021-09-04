@@ -1,0 +1,9 @@
+.FollowersList .FollowButton{
+    margin: 5px;
+    background-color: coral;
+    border-radius: 5px;
+    width: 50%;
+}
+.FollowersList{
+    overflow: auto;
+}

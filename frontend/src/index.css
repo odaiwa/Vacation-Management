@@ -1,16 +1,25 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* background-image: url("./assets/imgs/tron-le-JsuBKjHGDMM-unsplash.jpg"); */
-  background-repeat: no-repeat;
-  background-size: cover;
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    text-align: center;
+    background-color: #41B3A3;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+a {
+    color: blue;
+}
+
+.Box {
+    height: 100%;
+    overflow: auto;
+    text-align: left;
+    text-align: left;
+    border: 1px solid black;
+    padding: 0 10px;
+    margin: 50px auto;
+    margin-left: 30px;
+    margin-right: 30px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
 }
