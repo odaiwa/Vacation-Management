@@ -23,9 +23,7 @@ server.use(cors(options));
 server.use(uploader());
 server.use(express.json());
 
-
 server.use(express.static(path.join(__dirname,"./build")));
-
 
 server.use("/api/users", usersController);
 server.use("/api/auth", authController);
