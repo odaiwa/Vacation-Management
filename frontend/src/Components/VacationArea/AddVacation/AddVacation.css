@@ -9,7 +9,13 @@
     border-radius: 10px;
     box-shadow: 5px 5px 10px;
 }
-
+.AddVacation {
+    padding-top: 20px;
+    overflow: auto;
+    height: 75vh;
+    padding-top: 20px;
+    align-items: center;
+} 
 .AddVacation button {
     margin-top: 10px;
     width: 100%;

@@ -1,15 +1,13 @@
-import  axios  from 'axios';
+import axios from 'axios';
 import store from '../Redux/Store';
 
+const jwtAxios = axios.create(); // Create a new axios object
 
-//Create new Axios Object
-const jwtAxios = axios.create();
-
-jwtAxios.interceptors.request.use(request=>{
-    if(store.getState().authState.user){
+jwtAxios.interceptors.request.use(request => {
+    if(store.getState().authState.user) {
         request.headers = {
-            "authorization" : "Bearer "+store.getState().authState.user.token
-        }
+            "authorization": "Bearer " + store.getState().authState.user.token
+        };
     }
     return request;
 });

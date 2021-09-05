@@ -35,7 +35,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
             if (!ok) return;
             const vacationName=props.vacation.destination;
             await jwtAxios.delete(globals.vacationsUrl + props.vacation.vacationId);
-            socketVacation.emit("deleted-vacation-from-client", props.vacation.vacationId);
+            socketVacation.emit("delete-vacation-from-client", props.vacation.vacationId);
             notify.success(`Vacation to ${vacationName} has been deleted successfully`);
             history.push("/vacations");
         }

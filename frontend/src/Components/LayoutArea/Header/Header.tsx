@@ -6,9 +6,13 @@ import Logo from "../Logo/Logo";
 import "./Header.css";
 
 function Header(): JSX.Element {
+
+    useEffect(() => {
+        refreshConnecting();
+    });    
     
     const refreshConnecting = () => {
-        const  refresh = window.performance.navigation.type;
+        const refresh = window.performance.navigation.type;
         const isUserConnect = store.getState().authState.user;
         if (refresh && isUserConnect) {
             store.getState().authState.vacationsSocket.connect();

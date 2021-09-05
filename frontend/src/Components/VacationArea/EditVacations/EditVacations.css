@@ -1,0 +1,11 @@
+.EditVacations > form {
+    width: 100%;
+    text-align: left;
+}
+
+.EditVacations input, .EditVacations button, .EditVacations  label , textarea{
+    width: 100%;
+    box-sizing: border-box;
+    font-size: x-large;
+    margin-top: 10px;
+}

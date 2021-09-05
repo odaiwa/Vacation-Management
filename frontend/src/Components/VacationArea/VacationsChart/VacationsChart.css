@@ -1,0 +1,14 @@
+.VacationsChart {
+    position: relative;
+}
+
+.VacationsChart > :nth-child(1) > * {
+    width: 100%;
+    display: inline;
+    margin: 0 10px;
+}
+
+.VacationsChart > :nth-child(1) > h2 {
+    color: rgb(164, 175, 175);
+    font-family: italic;
+}

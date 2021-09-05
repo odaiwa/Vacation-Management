@@ -20,18 +20,32 @@ async function getOneVacationAsync(id) {
 
 //add vacation to DB
 async function addVacationAsync(vacation, image) {
-    // if(!image) {
-    //     return null;
-    // }
-    const imgExtention = image?.name.substr(image.name.lastIndexOf("."));
-    const newFileName = uuid.v4() + imgExtention;
+    console.log("image: "+image);
+      if(!image) {
+          return null;
+      }
+     const imgExtention = image?.name.substr(image.name.lastIndexOf("."));
+     const newFileName = uuid.v4() + imgExtention;
+     console.log(newFileName);
     const sql = `INSERT INTO vacations VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)`;
     const info = await dal.executeAsync(sql,[vacation.destination, vacation.startDate, vacation.endDate, vacation.price, vacation.description, newFileName]); 
     vacation.vacationId = info.insertId;
-    //vacation.img = newFileName;
-    //const absolutePath = path.join(__dirname, "..", "images", "vacations", vacation.img);
-    //await image.mv(absolutePath);
+    vacation.img = newFileName;
+    const absolutePath = path.join(__dirname, "..", "images", "vacations", vacation.img);
+    await image.mv(absolutePath);
     return vacation;
+}
+
+async function addImageToVacation(image,vacationId){
+    const imgExtention = image?.name.substr(image.name.lastIndexOf("."));
+    const newFileName = uuid.v4() + imgExtention;
+    const sql = `INSERT INTO vacations img VALUES ${newFileName} WHERE vacationId = ${vacationId}`;
+    const info = await dal.executeAsync(sql); 
+    vacation.img = newFileName;
+    const absolutePath = path.join(__dirname, "..", "images", "vacations", vacation.img);
+    await image.mv(absolutePath);
+    return vacation;
+
 }
 
 async function updateFullVacationAsync(vacation, newImage, currentImageName) {
@@ -78,5 +92,6 @@ module.exports = {
     getOneVacationAsync,
     updateFullVacationAsync,
     getOrdersByVacationsFollowesAsync,
-    deleteVacationAsync
+    deleteVacationAsync,
+    addImageToVacation
 };

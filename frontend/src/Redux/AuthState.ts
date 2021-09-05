@@ -8,8 +8,6 @@ export class AuthState {
     // VacationsSocketService:
     public vacationsSocket: VacationsSocket = new VacationsSocket();
     
-    // public unavailableToken: any = new Object();
-
     public constructor() {
         const user = JSON.parse(sessionStorage.getItem("user"));
         if (user) {
@@ -18,7 +16,7 @@ export class AuthState {
     }
 }
 
-// Auth Type ENUM: 
+// Auth Action Types: 
 export enum AuthActionType {
     UsersDownloaded = "UsersDownloaded",
     UserRegistered = "UserRegistered",
@@ -31,6 +29,9 @@ export interface AuthAction {
     type: AuthActionType;
     payload?: any;
 }
+
+
+
 
 // Auth Action Creators: 
 export function usersDownloadedAction(user: UserModel): AuthAction {
@@ -50,8 +51,10 @@ export function userLoggedOutAction(): AuthAction {
 export function authReducer(currentState: AuthState = new AuthState(), action: AuthAction): AuthState {
 
     const newState = { ...currentState };
+
+
     switch (action.type) {
-        case AuthActionType.UsersDownloaded:
+        case AuthActionType.UsersDownloaded: // payload = all vacations
         newState.user = action.payload;
         break;
         case AuthActionType.UserRegistered:

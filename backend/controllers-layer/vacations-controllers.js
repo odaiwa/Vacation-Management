@@ -32,31 +32,34 @@ router.get("/:id", verifyLoggedIn, async (request, response) => {
         // Logic
         const vacation = await vacationLogic.getOneVacationAsync(id);
         if (!vacation)
-            return response.status(404).send(`no cavation with id ${id} was found.`);
+            return response.status(404).send(`no vacation with id ${id} was found.`);
         response.json(vacation);
     }
     catch (err) {
         response.status(500).send(errorHelper.getError(err));
     }
 });
-express.json();
+// express.json();
 // POST http://localhost:3001/api/vacations
 router.post("/", async (request, response) => {
     //router.post("/", [verifyLoggedIn , verifyAdmin] ,async (request, response)=> {
     try {
-        // if(!request.files.img) return response.status(400).send("No Image sent!"); 
-        // Data: 
-        console.log("request.body: "+request.body);
+        //  console.log("request   "+request.files)
+        // console.log("Vacation Controller POST...")
+         if (!request.files.img) return response.status(400).send("No Image sent!");
+        //Data:
+        // console.log("request.body: " + request);
         const newVacation = new VacationModel(request.body);
-        console.log(newVacation);
+        // console.log(newVacation);
 
         // Validation: 
         const errors = newVacation.validatePost();
         if (errors) return response.status(400).send(errors);
 
         // Logic:         
-        const addedVacation = await vacationLogic.addVacationAsync(newVacation , request.files ? request.files.img : null);
-        // if (!addedVacation) 
+        // console.log("files: "+request.files);        
+        const addedVacation = await vacationLogic.addVacationAsync(newVacation, request.files ? request.files.img : null);
+        // if (!addedVacation)
         //     return response.status(400).send("No Image sent!");
 
         // Success: 
@@ -65,30 +68,23 @@ router.post("/", async (request, response) => {
     catch (err) {
         response.status(500).send(errorHelper.getError(err));
     }
-
-    // try {
-    //     // Data: 
-    //     const product = new VacationModel(request.body);
-
-    //     // Validation: 
-    //     const errors = product.validatePost();
-    //     if (errors) return response.status(400).send(errors);
-
-    //     // Logic: 
-    //     const addedProduct = await vacationLogic.addVacationAsync(product, request.files ? request.files.image : null);
-    //     // if (!addedProduct) 
-    //     //     return response.status(400).send("No Image sent!");
-    //     // Success: 
-    //     response.status(201).json(addedProduct);
-    // }
-    // catch (err) {
-    //     response.status(500).send(err.message);
-    // }
 });
 
+router.post("/:id",async(request,response)=>{
+    try{
+        const id = +request.params.id;
+        if(!request.files.img) return response.status(400).send("no image sent!");
+        request.body.vacationId = id;
+        const addedImageToVacation = await vacationLogic.addImageToVacation(id,request.files.img);
+        if (!addedVacation) return response.status(400).send("Somthing oquered");
+    }catch(err){
+        response.status(500).send(errorHelper.getError(err));
+    }
+})
+
 // PUT http://localhost:3001/api/vacations/:id
-//router.put("/:id" , async (request, response)=> {
-router.put("/:id", [verifyLoggedIn, verifyAdmin], async (request, response) => {
+router.put("/:id" , async (request, response)=> {
+//router.put("/:id", [verifyLoggedIn, verifyAdmin], async (request, response) => {
     try {
         // Data:
         const id = +request.params.id;
