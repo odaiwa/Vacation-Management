@@ -8,13 +8,21 @@ import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
 import store from "../../../Redux/Store";
 import { userRegisteredAction } from "../../../Redux/AuthState";
+import { useEffect } from "react";
 
 
 
 
 function Register(): JSX.Element {
 
+    useEffect(()=>{
+        if(store.getState().authState.user){
+            history.push("/home");
+            notify.error("You are already logged in!");
+            return;
+        }
 
+    });    
     const history = useHistory();
 
     async function submit(user: UserModel) {

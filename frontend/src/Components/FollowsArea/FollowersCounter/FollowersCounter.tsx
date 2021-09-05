@@ -6,11 +6,11 @@ import notify from "../../../Services/Notify";
 import "./FollowersCounter.css";
 
 interface FollowersCounterProps {
-	vacationId?: number;
+    vacationId?: number;
 }
 
 interface FollowersCounterState {
-	numberOfFollowers: FollowersModel[];
+    numberOfFollowers: FollowersModel[];
 }
 
 class FollowersCounter extends Component<FollowersCounterProps, FollowersCounterState> {
@@ -25,14 +25,14 @@ class FollowersCounter extends Component<FollowersCounterProps, FollowersCounter
             const response = await jwtAxios.get<FollowersModel[]>(globals.followersUrl + "user-count");
             this.setState({ numberOfFollowers: response.data });
         }
-        catch(err) {
+        catch (err) {
             notify.error(err);
         }
     }
 
-   
+
     public async componentWillUnmount() {
-        this.setState = (state, callback)=>{
+        this.setState = (state, callback) => {
             return;
         };
     }
@@ -40,8 +40,7 @@ class FollowersCounter extends Component<FollowersCounterProps, FollowersCounter
     public render(): JSX.Element {
         return (
             <div className="FollowersCounter">
-                {this.state.numberOfFollowers.length === 0 && <div>0</div>}
-                {this.state.numberOfFollowers.map(n => n.vacationId === this.props.vacationId &&<div className="FollowersIcon" key={n.vacationId}>{n.numberOfUsers}</div>)}
+                <span>Followers: </span> {this.state.numberOfFollowers.map(n => n.vacationId === this.props.vacationId && <div className="FollowersIcon" key={n.vacationId}>{+n.numberOfUsers}</div>)}
             </div>
         );
     }

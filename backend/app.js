@@ -2,7 +2,6 @@ global.config = require(process.env.NODE_ENV === "production" ? "./config-prod.j
 const express = require("express");
 const uploader = require("express-fileupload");
 const cors = require("cors");
-const bodyParser = require('body-parser')
 const usersController = require("./controllers-layer/users-controller");
 const authController = require("./controllers-layer/auth-controller");
 const followsController = require("./controllers-layer/follows-controller");
@@ -12,19 +11,12 @@ const socketLogic = require("./business-logic-layer/vacation-socket-logic");
 const server = express();
 
 
-// server.use(function (req, res) {
-//     res.setHeader('Content-Type', 'text/plain')
-//     res.write('you posted:\n')
-//     res.end(JSON.stringify(req.body, null, 2))
-// });
 server.use(sanitize);
-// server.use(express.json());
 const options={
     origin:true,
     credentials:true,
     allowedHeaders:"Origin, X-Requested-With, Content-Type, Accept, Authorization"
 }
-// server.use(bodyParser.json())
 server.use(cors(options));
 server.use(uploader());
 server.use(express.json());

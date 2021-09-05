@@ -4,14 +4,13 @@ import { History } from "history";
 import VacationsModel from "../../../Models/VacationsModel";
 import UserModel from "../../../Models/UserModel";
 import store from "../../../Redux/Store";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { vacationsDownloadedAction } from "../../../Redux/VacationsState";
 import jwtAxios from "../../../Services/jwtAxios";
 import globals from "../../../Services/Globals";
 import notify from "../../../Services/Notify";
 import { userLoggedOutAction } from "../../../Redux/AuthState";
 import VacationCard from "../VacationCard/VacationCard";
-import NoVacationsAvailable from "../NoVacationsAvailable/NoVacationsAvailable";
 import Loader from "../../SharedArea/Loader/Loader";
 
 interface VacationListProps {

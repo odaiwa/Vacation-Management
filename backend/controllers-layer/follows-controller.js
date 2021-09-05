@@ -127,10 +127,6 @@ router.post("/:uuid/:vacationId", async (request, response) => {
         const user = await usersLogic.getOneUserByUuidAsync(uuid);
         const userId = user.userId;
         // Logic:
-        // const checkFollower = await followsLogic.isUserFollowsVacationAsync(uuid, vacationId);
-        // if(checkFollower){
-        //     response.status(406).send("you already follows this vacation");
-        // }
         const addedFollower = await followsLogic.addFollowingToVacationAsync(userId, vacationId);
 
         // Success:

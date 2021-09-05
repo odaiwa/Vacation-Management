@@ -9,9 +9,13 @@ import notify from "../../../Services/Notify";
 function Logout(): JSX.Element {
     const history = useHistory();
     useEffect(() => {
+
+
+
         store.dispatch(userLoggedOutAction());
         notify.success("Logged-out successfully.");
         history.push("/home");
+
     });
     return null;
 }

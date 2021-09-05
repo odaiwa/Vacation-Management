@@ -1,5 +1,4 @@
 import { NavLink, useHistory } from "react-router-dom";
-import FollowersModel from "../../../Models/FollowersModel";
 import VacationsModel from "../../../Models/VacationsModel";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
@@ -19,15 +18,6 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
 
     const history = useHistory();
-    const numberOfFollowers = async () => {
-        try {
-            const response = await jwtAxios.get<FollowersModel>(globals.followersUrl + "user-count");
-            <FollowersCounter vacationId={props.vacation.vacationId}/>
-            props.followers = +response;
-        } catch (err) {
-            console.log("err" + err);
-        }
-    }
     const deleteVacation = async () => {
         try {
             const socketVacation = store.getState().authState.vacationsSocket.socket;
@@ -57,7 +47,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                                 <h1>{props.vacation.destination}</h1>
                             </header>
 
-                            Followers : <FollowersCounter vacationId={props.vacation.vacationId}/>
+                            <FollowersCounter vacationId={props.vacation.vacationId}/>
 
                             <div className="w3-container">
                                 <label>From: </label>
@@ -74,15 +64,13 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                 </div>
 
                 <div className="dataAndPhoto">
-                    <NavLink to={`/vacations/details/${props.vacation.vacationId}`}>
                         {<img src={globals.vacationsUrl + "images/" + props.vacation.img} />}
-                    </NavLink>
                 </div>
 
                 <div className="AllIcons">
                     <div>
                         {props.admin === 1 && <div> <span><NavLink to={`/vacations/edit/${props.vacation.vacationId}`}>Edit </NavLink></span> | <span onClick={() => deleteVacation()}><NavLink to="/vacations"> Delete</NavLink> </span> </div>}
-                        <NavLink to={`/vacations/details/${props.vacation.vacationId}`}> Info </NavLink>
+                        <NavLink to={`/vacations/details/${props.vacation.vacationId}`}> More Info </NavLink>
                         {props.admin === 0 && <FollowersList uuid={store.getState().authState.user.uuid} vacationId={props.vacation.vacationId} />}
                     </div>
                 </div>

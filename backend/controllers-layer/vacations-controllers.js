@@ -12,7 +12,6 @@ const bodyParser = require('body-parser');
 
 
 // GET http://localhost:3001/api/vacations
-//router.get("/", async (request, response) => {
 router.get("/", verifyLoggedIn, async (request, response) => {
     try {
         const vacations = await vacationLogic.getAllVacationsAsync();
@@ -24,8 +23,8 @@ router.get("/", verifyLoggedIn, async (request, response) => {
 });
 
 // GET http://localhost:3001/api/vacations/:id
-router.get("/:id", async (request, response) => {
-//router.get("/:id", verifyLoggedIn, async (request, response) => {
+//router.get("/:id", async (request, response) => {
+router.get("/:id", verifyLoggedIn, async (request, response) => {
     try {
         // Data:
         const id = +request.params.id;
@@ -39,25 +38,20 @@ router.get("/:id", async (request, response) => {
         response.status(500).send(errorHelper.getError(err));
     }
 });
-// express.json();
+
 // POST http://localhost:3001/api/vacations
-//router.post("/", async (request, response) => {
 router.post("/", [verifyLoggedIn , verifyAdmin] ,async (request, response)=> {
     try {
-        //  console.log("request   "+request.files)
-        // console.log("Vacation Controller POST...")
+
         if (!request.files.img) return response.status(400).send("No Image sent!");
         //Data:
-        // console.log("request.body: " + request);
         const newVacation = new VacationModel(request.body);
-        // console.log(newVacation);
 
         // Validation: 
         const errors = newVacation.validatePost();
         if (errors) return response.status(400).send(errors);
 
         // Logic:         
-        // console.log("files: "+request.files);        
         const addedVacation = await vacationLogic.addVacationAsync(newVacation, request.files ? request.files.img : null);
         // if (!addedVacation)
         //     return response.status(400).send("No Image sent!");
@@ -83,7 +77,6 @@ router.post("/:id", async (request, response) => {
 })
 
 // PUT http://localhost:3001/api/vacations/:id
-//router.put("/:id", async (request, response) => {
 router.put("/:id", [verifyLoggedIn, verifyAdmin], async (request, response) => {
     try {
         // Data:

@@ -9,8 +9,18 @@ import store from "../../../Redux/Store";
 import "./Login.css";
 import { useForm } from "react-hook-form";
 import { userLoggedInAction } from "../../../Redux/AuthState";
+import { useEffect } from "react";
 
 function Login(): JSX.Element {
+
+    useEffect(()=>{
+        if(store.getState().authState.user){
+            history.push("/home");
+            notify.error("You are already logged in!");
+            return;
+        }
+
+    });    
 
     const history = useHistory();
     const { register, handleSubmit, formState } = useForm<CredentialsModel>();
