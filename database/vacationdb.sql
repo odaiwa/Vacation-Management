@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 05, 2021 at 01:22 PM
+-- Generation Time: Sep 05, 2021 at 09:45 PM
 -- Server version: 10.4.20-MariaDB
--- PHP Version: 7.4.22
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,14 +34,6 @@ CREATE TABLE `follows` (
   `vacationId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `follows`
---
-
-INSERT INTO `follows` (`userId`, `vacationId`) VALUES
-(9, 2),
-(4, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -66,7 +58,9 @@ INSERT INTO `users` (`userId`, `uuid`, `firstName`, `lastName`, `userName`, `pas
 (1, 'dfgh552154fh-fghf51g4h1-daaa54fr', 'Odai', 'Wattad', 'odaiwa12', '123456', 1),
 (4, '34205a3f-916c-4e8a-9ba5-dd3de4f826fb', 'Moshi', 'Ofnik', 'moshiko1', '8493ce9a85a452088be658631708cc193b072763f07cf234f06adcefeb4ee569ddf9f69a2cd3f4484435f339c33aea50f99b5324e38a2129cc1da59f9c473207', 0),
 (8, '88d00dde-9ce5-4166-bbeb-cc957f0819d6', 'Kipi', 'Bin-Kipod', 'kipode', '0ff58575da6dffef7e8681141e7aa23d79d1ab2df9a6eb7b6c5e5930a9505ff3a691f4aeb619fa355a697fc57caa9da046c9a2520b8ad55762c93ce9dafad70b', 1),
-(9, 'd4a10298-afbd-4531-907c-004ef2b0b5ac', 'Moshi', 'Ofnik', 'moshiko', '8493ce9a85a452088be658631708cc193b072763f07cf234f06adcefeb4ee569ddf9f69a2cd3f4484435f339c33aea50f99b5324e38a2129cc1da59f9c473207', 0);
+(9, 'd4a10298-afbd-4531-907c-004ef2b0b5ac', 'Moshi', 'Ofnik', 'moshiko', '8493ce9a85a452088be658631708cc193b072763f07cf234f06adcefeb4ee569ddf9f69a2cd3f4484435f339c33aea50f99b5324e38a2129cc1da59f9c473207', 0),
+(12, '273b6597-078e-4d76-a6c2-f54348cabe0b', 'tshmes', 'elabaas', 'novascream', '79d8e483513b1b2654f4e7ac95b600196891568b6f15f9a1e66afb18f23673f2ae1615591e74ef6d837dca1dfd8d4551284b57a2f5b912f25164d15ef91cf0be', 0),
+(13, '6bb4fb47-a2c1-4865-bc34-3f81dda05132', '312', '312', 'monom', '79d8e483513b1b2654f4e7ac95b600196891568b6f15f9a1e66afb18f23673f2ae1615591e74ef6d837dca1dfd8d4551284b57a2f5b912f25164d15ef91cf0be', 0);
 
 -- --------------------------------------------------------
 
@@ -89,12 +83,8 @@ CREATE TABLE `vacations` (
 --
 
 INSERT INTO `vacations` (`vacationId`, `destination`, `startDate`, `endDate`, `price`, `description`, `img`) VALUES
-(2, 'Beer-Sheva', '2021-09-06', '2021-09-14', '340', 'Beer-Sheva is one of the Cities that is Evolving in Isreal.', ''),
-(4, 'Eilat', '2021-07-17', '2021-07-21', '345', 'Eilat is the best city for tourist in Israel', '263a7f3c-5630-4b07-8106-44b116dc691bundefined'),
-(5, 'Rio-De Janeiro', '2021-09-16', '2021-09-17', '540', 'Best City in Barzil.\r\n', ''),
-(6, 'Tokyo', '2021-09-19', '2021-09-21', '670', 'Welcome to JDM!!!!!', ''),
-(7, 'Lisbon', '2021-09-20', '2021-09-22', '260', 'in this city there\'s a club called Sporting Lisbon where Cristiano Ronaldo started his career.', ''),
-(8, 'Eilat', '1010-05-05', '1010-05-05', '345', 'ghfjfghj', '686bc402-09e1-472d-aa8e-b42177dd7bdfundefined');
+(52, 'vancouver', '2021-09-06', '2021-09-14', '13', 'afssdfgfdsg', 'fb297c1b-a4da-4ae2-b678-6635efd7a884.jpg'),
+(53, 'ad', '2021-09-07', '2021-09-15', '13', 'dafdfsdf', '6627a138-a723-467d-aa7a-549f51ce13ef.jpg');
 
 --
 -- Indexes for dumped tables
@@ -127,13 +117,13 @@ ALTER TABLE `vacations`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `vacations`
 --
 ALTER TABLE `vacations`
-  MODIFY `vacationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `vacationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- Constraints for dumped tables
