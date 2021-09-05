@@ -24,8 +24,8 @@ router.get("/", verifyLoggedIn, async (request, response) => {
 });
 
 // GET http://localhost:3001/api/vacations/:id
-//router.get("/:id", async (request, response) => {
-router.get("/:id", verifyLoggedIn, async (request, response) => {
+router.get("/:id", async (request, response) => {
+//router.get("/:id", verifyLoggedIn, async (request, response) => {
     try {
         // Data:
         const id = +request.params.id;
@@ -41,12 +41,12 @@ router.get("/:id", verifyLoggedIn, async (request, response) => {
 });
 // express.json();
 // POST http://localhost:3001/api/vacations
-router.post("/", async (request, response) => {
-    //router.post("/", [verifyLoggedIn , verifyAdmin] ,async (request, response)=> {
+//router.post("/", async (request, response) => {
+router.post("/", [verifyLoggedIn , verifyAdmin] ,async (request, response)=> {
     try {
         //  console.log("request   "+request.files)
         // console.log("Vacation Controller POST...")
-         if (!request.files.img) return response.status(400).send("No Image sent!");
+        if (!request.files.img) return response.status(400).send("No Image sent!");
         //Data:
         // console.log("request.body: " + request);
         const newVacation = new VacationModel(request.body);
@@ -70,21 +70,21 @@ router.post("/", async (request, response) => {
     }
 });
 
-router.post("/:id",async(request,response)=>{
-    try{
+router.post("/:id", async (request, response) => {
+    try {
         const id = +request.params.id;
-        if(!request.files.img) return response.status(400).send("no image sent!");
+        if (!request.files.img) return response.status(400).send("no image sent!");
         request.body.vacationId = id;
-        const addedImageToVacation = await vacationLogic.addImageToVacation(id,request.files.img);
+        const addedImageToVacation = await vacationLogic.addImageToVacation(id, request.files.img);
         if (!addedVacation) return response.status(400).send("Somthing oquered");
-    }catch(err){
+    } catch (err) {
         response.status(500).send(errorHelper.getError(err));
     }
 })
 
 // PUT http://localhost:3001/api/vacations/:id
-router.put("/:id" , async (request, response)=> {
-//router.put("/:id", [verifyLoggedIn, verifyAdmin], async (request, response) => {
+//router.put("/:id", async (request, response) => {
+router.put("/:id", [verifyLoggedIn, verifyAdmin], async (request, response) => {
     try {
         // Data:
         const id = +request.params.id;
@@ -104,6 +104,20 @@ router.put("/:id" , async (request, response)=> {
         response.status(500).send(errorHelper.getError(err));
     }
 });
+
+router.get("/images/:name", (request, response) => {
+    try{
+
+        const imageName = request.params.name;
+        const imagePath = path.join(__dirname, "..", "images", "vacations", imageName);
+        if (!fs.existsSync(imagePath)) {
+            imagePath = path.join(__dirname, "..", "images", "vacations", "image-not-found.jpg");
+        }
+        response.sendFile(imagePath);
+    }catch(err){
+        response.status(500).send(err.message);
+    }
+})
 
 // DELETE http://localhost:3001/api/vacations/7
 router.delete("/:id", [verifyLoggedIn, verifyAdmin], async (request, response) => {

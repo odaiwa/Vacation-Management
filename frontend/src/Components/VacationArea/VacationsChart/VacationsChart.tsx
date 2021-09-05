@@ -32,6 +32,11 @@ class VacationsChart extends Component<VacationsChartProps, VacationsChartState>
                 notify.error("You are not logged in!");
                 return;
             }
+            if(!store.getState().authState.user.isAdmin){
+                this.props.history.push("/vacations");
+                notify.error("You are not authorized!");
+                return;
+            }
             if(this.state.details.length === 0) {
                 const responseFollowing = await jwtAxios.get<FollowersModel[]>(globals.followersUrl + "user-count"); 
                 await this.setState({following: responseFollowing.data});  

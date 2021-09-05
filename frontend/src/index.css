@@ -3,7 +3,7 @@ html, body, #root {
     padding: 0;
     height: 100%;
     text-align: center;
-    background-color: #41B3A3;
+    background-color: #41436A;
 }
 
 a {
@@ -13,8 +13,7 @@ a {
 .Box {
     height: 100%;
     overflow: auto;
-    text-align: left;
-    text-align: left;
+    text-align: center;
     border: 1px solid black;
     padding: 0 10px;
     margin: 50px auto;

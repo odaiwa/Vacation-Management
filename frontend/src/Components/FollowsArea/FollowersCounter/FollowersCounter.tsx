@@ -40,6 +40,7 @@ class FollowersCounter extends Component<FollowersCounterProps, FollowersCounter
     public render(): JSX.Element {
         return (
             <div className="FollowersCounter">
+                {this.state.numberOfFollowers.length === 0 && <div>0</div>}
                 {this.state.numberOfFollowers.map(n => n.vacationId === this.props.vacationId &&<div className="FollowersIcon" key={n.vacationId}>{n.numberOfUsers}</div>)}
             </div>
         );

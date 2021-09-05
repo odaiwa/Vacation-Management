@@ -21,6 +21,7 @@ interface VacationListProps {
 
 interface VacationListState {
     vacations: VacationsModel[];
+    isThereAnyVicaion: number;
     user: UserModel;
     admin: number;
     isFollow: boolean;
@@ -39,6 +40,9 @@ class VacationList extends Component<VacationListProps, VacationListState> {
             if (this.state.vacations.length === 0) {
                 // http://localhost:3001/api/vacations
                 const response = await jwtAxios.get<VacationsModel[]>(globals.vacationsUrl);
+                if (response.data.length === 0) {
+                    this.setState({ isThereAnyVicaion: 0 });
+                }
                 this.setState({ vacations: response.data, admin: this.state.user.isAdmin });
                 store.dispatch(vacationsDownloadedAction(response.data));
             }
@@ -83,6 +87,7 @@ class VacationList extends Component<VacationListProps, VacationListState> {
         super(props);
         this.state = {
             vacations: [],
+            isThereAnyVicaion: 0,
             user: store.getState().authState.user,
             admin: 0,
             isFollow: false,
@@ -94,8 +99,8 @@ class VacationList extends Component<VacationListProps, VacationListState> {
             <div className="VacationsList" >
                 <div className="VacationOptions">
                     {this.state.vacations.length === 0 && <Loader />}
-                    {this.state.admin === 1 && <NavLink className="AddButton" to="/vacations/new/" >Add Vacation </NavLink>}
-                    {this.state.admin === 1 && <NavLink to="/vacations-chart" >Edit</NavLink>}
+                    {this.state.admin === 1 && <NavLink className="AddButton" to="/vacations/new/" ><button className="Btn" >Add Vacation</button></NavLink>}
+                    {this.state.admin === 1 && <NavLink to="/vacations-chart" ><button className="Btn" >Vacations Chart</button></NavLink>}
                 </div>
                 <div>
                     <p> <b>{this.state.vacations.length} vacations currently available </b></p>

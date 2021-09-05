@@ -2,15 +2,26 @@
 	border: 1px solid black;
     border-radius: 5px;
     width: 300px;
-    height: 300px;
+    height: 400px;
     margin: 5px;
     display: inline-grid ;
     align-items: baseline;
     padding:5px;
+    background-color: #984063;
 }
 
 .VacationCard .w3-container{
     width: 100%;
     /* position: fixed; */
     /* bottom: 0%; */
+}
+.VacationCard .dataAndPhoto{
+    display: inline;
+}
+
+.VacationCard .dataAndPhoto  img{
+    width: 50%;
+}
+.VacationCard textarea{
+    font-size: small;
 }

@@ -15,45 +15,47 @@ interface RouteParams {
     id: string;
 }
 
-interface VacationDetailsProps extends RouteComponentProps<RouteParams> { } 
+interface VacationDetailsProps extends RouteComponentProps<RouteParams> { }
 
 
 interface VacationDetailsState {
     vacations: VacationsModel[];
-    id: number;	
-    admin: number
+    id: number;
+    admin: number;
+    correntVacation:string;
 }
 
 class VacationDetails extends Component<VacationDetailsProps, VacationDetailsState> {
 
     public constructor(props: VacationDetailsProps) {
         super(props);
-        this.state = { vacations: [] ,id: 0 , admin: 0};
+        this.state = { vacations: [], id: 0, admin: 0,correntVacation:"" };
     }
 
 
     public async componentDidMount() {
         try {
             const vacationId = +this.props.match.params.id;
+            this.setState({correntVacation:globals.vacationsUrl+vacationId});
             const response = await jwtAxios.get<VacationsModel[]>(globals.vacationsUrl + vacationId);
-            this.setState({ vacations: response.data , id: vacationId , admin: store.getState().authState.user.isAdmin });
-        } 
+            this.setState({ vacations: response.data, id: vacationId, admin: store.getState().authState.user.isAdmin });
+        }
         catch (err) {
             notify.error(err);
-            // if(err.response.data === "Your login session has expired."){
-            //     store.dispatch(userLoggedOutAction());
-            //     this.props.history.push("/login");
-            // }
+             if(err === "Your login session has expired."){
+                 store.dispatch(userLoggedOutAction());
+                 this.props.history.push("/login");
+             }
         }
     }
 
     public async componentWillUnmount() {
-        this.setState = (state, callback)=>{
+        this.setState = (state, callback) => {
             return;
         };
     }
 
-    public deleteVacation = async () =>  {
+    public deleteVacation = async () => {
         try {
             const ok = window.confirm("Are you sure?");
             if (!ok) return;
@@ -64,40 +66,40 @@ class VacationDetails extends Component<VacationDetailsProps, VacationDetailsSta
         catch (err) {
             notify.error("Error" + err);
         }
-    } 
+    }
 
     public render(): JSX.Element {
         return (
-            <div className="VacationDetails MainComponents">
-            { this.state.vacations.length === 0 && <Loader />}
-            {this.state.vacations.map(v => 
-                <div key={v.vacationId}>
-                    <div className="BoxIcons">
-                        <NavLink to="/vacations"></NavLink>
-                        {this.state.admin === 1 && <NavLink to={`/vacations/edit/${v.vacationId}`}> </NavLink>}
+            <div className="MainComponents Box VacationDetails">
+                {this.state.vacations.length === 0 && <Loader />}
+                {this.state.vacations.map(v =>
+                    <div key={v.vacationId}>
+                        <div className="BoxIcons">
+                            <NavLink to="/vacations"></NavLink>
+                            {this.state.admin === 1 && <NavLink to={`/vacations/edit/${v.vacationId}`}> </NavLink>}
+                        </div>
+                        <h2>{v.destination}</h2>
+                        <div>
+                            <label>From: </label>
+                            <span> {v.startDate}</span>
+                            <br />
+                            <label>Until: </label>
+                            <span> {v.endDate}</span>
+                            <br />
+                            <label>Price: </label>
+                            <span> {v.price} $</span>
+                            <p>{v.description}</p>
+                            <img alt="#" src={globals.vacationsUrl + "images/" + v.img} />
+                        </div>
                         {this.state.admin === 1 && <div>
-                            <p onClick={()=>this.deleteVacation()}>
-                                Delete 
-                            </p>   
+                            
+                            <span >  <button className="Btn"> <NavLink to={`/vacations/edit/${this.state.id}`}>Edit </NavLink></button></span>
+                            <span onClick={() => this.deleteVacation()}> <button className="Btn" >Delete </button></span>
                         </div>}
+                        <NavLink to="/vacations">Back to List</NavLink>
                     </div>
-                    <h2>{v.destination}</h2>
-                    <div>
-                        <label>From: </label>
-                        <span>{v.startDate}</span>
-                        <br/>
-                        <label>Until: </label>
-                        <span>{v.endDate}</span>
-                        <br/>
-                        <label>Price: </label>
-                        <span>{v.price} $</span>
-                        <p>{v.description}</p>
-                        <img alt="#" src={globals.vacationsUrl + "images/" + v.img} />
-                    </div>
-                    <NavLink to="/vacations">Back to List</NavLink>
-                </div>
-            )}                  
-    </div>
+                )}
+            </div>
         );
     }
 }

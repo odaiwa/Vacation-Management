@@ -11,3 +11,13 @@
     right:20px;
     top:100px;
 } */
+
+.VacationsList .AddButton{
+    margin-right: 5px;
+}
+
+.VacationsList .Btn{
+    border-radius: 5px;
+    margin-top:5px;
+    background-color: #d4506b;
+}
