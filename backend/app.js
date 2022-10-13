@@ -41,6 +41,6 @@ server.use("*", (request, response) => {
     response.status(404).send("Route not found.");
 });
 
-const port = process.env.PORT || 3001; //process.env.PORT === Some production port || 3001 === localhost port
+const port = process.env.PORT || 3001; 
 const listener = server.listen(port, () => console.log(`Listening to ${port}...`));
 socketLogic.start(listener);
